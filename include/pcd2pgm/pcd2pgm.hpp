@@ -56,6 +56,7 @@ private:
   int thres_point_count_;
   std::string pcd_file_;
   std::string map_topic_name_;
+  std::string map_frame_id_;  // 맵 프레임 ID 추가
   std::vector<double> odom_to_lidar_odom_;
 
   std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> pcd_cloud_;

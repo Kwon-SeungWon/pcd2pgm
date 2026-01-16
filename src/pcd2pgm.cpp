@@ -56,7 +56,7 @@ void Pcd2PgmNode::publishCallback()
 {
   sensor_msgs::msg::PointCloud2 output;
   pcl::toROSMsg(*cloud_after_radius_, output);
-  output.header.frame_id = "map";
+  output.header.frame_id = map_frame_id_;
   pcd_publisher_->publish(output);
   map_publisher_->publish(map_topic_msg_);
 }
@@ -71,6 +71,7 @@ void Pcd2PgmNode::declareParameters()
   declare_parameter("map_resolution", 0.05);
   declare_parameter("thres_point_count", 10);
   declare_parameter("map_topic_name", "map");
+  declare_parameter("map_frame_id", "map");  // 맵 프레임 ID 파라미터 추가
   declare_parameter(
     "odom_to_lidar_odom", std::vector<double>{0.0, 0.0, 0.0, 0.0, 0.0, 0.0});  // 新增的参数
 }
@@ -85,6 +86,7 @@ void Pcd2PgmNode::getParameters()
   get_parameter("map_resolution", map_resolution_);
   get_parameter("thres_point_count", thres_point_count_);
   get_parameter("map_topic_name", map_topic_name_);
+  get_parameter("map_frame_id", map_frame_id_);  // 맵 프레임 ID 파라미터 로드
   get_parameter("odom_to_lidar_odom", odom_to_lidar_odom_);  // 获取新的参数
 }
 
@@ -123,7 +125,7 @@ void Pcd2PgmNode::setMapTopicMsg(
   const pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, nav_msgs::msg::OccupancyGrid & msg)
 {
   msg.header.stamp = now();
-  msg.header.frame_id = "map";
+  msg.header.frame_id = map_frame_id_;
 
   msg.info.map_load_time = now();
   msg.info.resolution = map_resolution_;

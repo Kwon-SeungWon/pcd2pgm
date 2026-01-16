@@ -83,6 +83,6 @@ def generate_launch_description():
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(start_pcd2pgm_cmd)
-    ld.add_action(start_rviz_cmd)
+    # ld.add_action(start_rviz_cmd)
 
     return ld
